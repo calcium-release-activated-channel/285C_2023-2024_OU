@@ -4,24 +4,18 @@
 #include "main.h"
 
 const std::vector<std::string> autonModes = {
-    "No Autonomous",
-    "(+) Elev Bar ",
-    "(L) LoadZone ",
-    "(R) ScoreGoal",
-    "(L+) LdZn+Bar",
-    "(R+) ScGl+Bar",
     "Auton DevTest"};
 int autMode = 0;
 
 /*** TASK SAFETY ***/
 // safety
 void taskKill() {
-    if (buttonInterruptsTask.get_state() == pros::task_state_e_t::E_TASK_STATE_RUNNING) {
-        buttonInterruptsTask.suspend();
-    }
-    if (cataSubhandlerTask.get_state() == pros::task_state_e_t::E_TASK_STATE_RUNNING) {
-        cataSubhandlerTask.suspend();
-    }
+    // if (buttonInterruptsTask.get_state() == pros::task_state_e_t::E_TASK_STATE_RUNNING) {
+    //     buttonInterruptsTask.suspend();
+    // }
+    // if (cataSubhandlerTask.get_state() == pros::task_state_e_t::E_TASK_STATE_RUNNING) {
+    //     cataSubhandlerTask.suspend();
+    // }
     // if (intakeSubhandlerTask.get_state() == pros::task_state_e_t::E_TASK_STATE_RUNNING) {
     //     intakeSubhandlerTask.suspend();
     // }
@@ -52,7 +46,7 @@ int8_t ptoHalfRPort = 14;
 // int8_t intakePort = 5;
 
 // sensors (implicit conversion)
-uint8_t autonSelectorPort = 'B';
+uint8_t autonSelectorPort = 'E';
 uint8_t ptoSolenoidPort = 'C';
 uint8_t wingsSolenoidPort = 'D';
 // uint8_t sweepSolenoidPort = 'E';

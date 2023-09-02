@@ -3,12 +3,6 @@
 
 #include "main.h"
 
-void noAuton();
-void elevationBar();
-void loadZone();
-void scoreGoal();
-void loadZoneAndBar();
-void scoreGoalAndBar();
 void autonTest();
 void driveStraight(int target);
 

@@ -26,52 +26,11 @@
  * from where it left off.
  */
 void autonomous() {
-    taskKill(); // in case we ever go from driver -> auton -> driver
-    switch (autMode) {
-        case 0:
-            noAuton();
-            break;
-        case 1:
-            elevationBar();
-            break;
-        case 2:
-            loadZone();
-            break;
-        case 3:
-            scoreGoal();
-            break;
-        case 4:
-            loadZoneAndBar();
-            break;
-        case 5:
-            scoreGoalAndBar();
-            break;
-        case 6:
-            autonTest();
-            break;
-        default:
-            noAuton();
-            break;
+    taskKill();  // in case we ever go from driver -> auton -> driver
+    while (true) {
+        autonTest();
     }
 }
-
-// No Autonomous
-void noAuton() {}
-
-// Elevation Bar: +
-void elevationBar() {}
-
-// Load Zone: LEFT
-void loadZone() {}
-
-// Score Goal: RIGHT
-void scoreGoal() {}
-
-// Load Zone + Bar: LEFT+
-void loadZoneAndBar() {}
-
-// Score Goal + Bar: RIGHT+
-void scoreGoalAndBar() {}
 
 /**
  * @brief Synnchronous drive function that corrects for differences in friction
@@ -85,7 +44,10 @@ void driveStraight(int target) {  // adjust for differences in friction
 }
 
 void autonTest() {
-    drive4->getModel()->tank(0, 0); // use only 4m drive
+    while (true) {
+        ptoGroup.moveVelocity(200);
+        pros::delay((int)(2000.0 / 3.3));
+    }
 }
 
 #endif
