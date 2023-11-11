@@ -3,7 +3,7 @@
 
 #include "main.h"
 
-void autonTest();
-void driveStraight(int target);
+// nothing to see here, but you
+// may add declarations as needed
 
 #endif
