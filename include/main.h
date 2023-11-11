@@ -68,17 +68,18 @@ extern "C" {
 extern int autMode;
 
 void taskKill();
-extern pros::Task buttonInterruptsTask;
+// extern pros::Task buttonInterruptsTask;
 // extern pros::Task cataSubhandlerTask;
 // extern pros::Task intakeSubhandlerTask;
 
 extern Controller controller;
 
 extern ControllerButton cataBtn;
-// extern ControllerButton intakeBtn;
-// extern ControllerButton outtakeBtn;
+extern ControllerButton armOutBtn;
+extern ControllerButton armInBtn;
 extern ControllerButton ptoBtn;
 extern ControllerButton wingsBtn;
+extern ControllerButton cataRevBtn;
 
 extern Motor driveLF;
 extern Motor driveLB;
@@ -90,7 +91,7 @@ extern Motor ptoHalfL;
 extern Motor ptoFullR;
 extern Motor ptoHalfR;
 
-// extern Motor intake;
+extern Motor intake;
 
 extern pros::adi::DigitalIn autonSelector;
 extern pros::adi::DigitalOut ptoSolenoid;
