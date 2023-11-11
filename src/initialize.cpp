@@ -3,8 +3,6 @@
 
 #include "main.h"
 
-int autMode = 0;
-
 /*** TASK SAFETY ***/
 // safety
 void taskKill() {
