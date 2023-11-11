@@ -3,8 +3,6 @@
 
 #include "main.h"
 
-const std::vector<std::string> autonModes = {
-    "Auton DevTest"};
 int autMode = 0;
 
 /*** TASK SAFETY ***/
@@ -25,9 +23,10 @@ void taskKill() {
 // controls
 ControllerButton cataBtn = ControllerDigital::L1;
 ControllerButton wingsBtn = ControllerDigital::L2;
-// ControllerButton intakeBtn = ControllerDigital::R1;
-// ControllerButton outtakeBtn = ControllerDigital::R2;
+ControllerButton armOutBtn = ControllerDigital::R1;
+ControllerButton armInBtn = ControllerDigital::R2;
 ControllerButton ptoBtn = ControllerDigital::B;
+ControllerButton cataRevBtn = ControllerDigital::down;
 
 // ports
 // drive motors
@@ -43,7 +42,7 @@ int8_t ptoFullRPort = 13;
 int8_t ptoHalfRPort = 14;
 
 // intake motor
-// int8_t intakePort = 5;
+int8_t intakePort = 5;
 
 // sensors (implicit conversion)
 uint8_t autonSelectorPort = 'E';
@@ -62,12 +61,12 @@ Motor driveLB(driveLBPort, true, driveSetting);
 Motor driveRF(driveRFPort, false, driveSetting);
 Motor driveRB(driveRBPort, false, driveSetting);
 
-Motor ptoFullL(ptoFullLPort, false, driveSetting);
-Motor ptoHalfL(ptoHalfLPort, true, driveSetting);
-Motor ptoFullR(ptoFullRPort, false, driveSetting);
-Motor ptoHalfR(ptoHalfRPort, true, driveSetting);
+Motor ptoFullL(ptoFullLPort, true, driveSetting);
+Motor ptoHalfL(ptoHalfLPort, false, driveSetting);
+Motor ptoFullR(ptoFullRPort, true, driveSetting);
+Motor ptoHalfR(ptoHalfRPort, false, driveSetting);
 
-// Motor intake(intakePort, true, AbstractMotor::gearset::blue, AbstractMotor::encoderUnits::degrees);
+Motor intake(intakePort, false, AbstractMotor::gearset::red, AbstractMotor::encoderUnits::degrees);
 
 // sensors
 pros::adi::DigitalIn autonSelector(autonSelectorPort);
@@ -82,6 +81,8 @@ pros::adi::DigitalOut wingsSolenoid(wingsSolenoidPort);
 MotorGroup driveL({driveLF, driveLB});
 MotorGroup driveR({driveRF, driveRB});
 MotorGroup ptoGroup({ptoFullL, ptoFullR, ptoHalfL, ptoHalfR});
+MotorGroup ptoGroupL({ptoFullL, ptoHalfL});
+MotorGroup ptoGroupR({ptoFullR, ptoHalfR});
 
 // drive
 std::shared_ptr<ChassisController> drive4 = okapi::ChassisControllerBuilder()
@@ -90,7 +91,7 @@ std::shared_ptr<ChassisController> drive4 = okapi::ChassisControllerBuilder()
                                                 .withMaxVelocity(200)
                                                 .build();
 std::shared_ptr<ChassisController> drive7 = okapi::ChassisControllerBuilder()
-                                                .withMotors(driveL, driveR, ptoGroup)
+                                                .withMotors(ptoGroupL, ptoGroupR)
                                                 .withDimensions({AbstractMotor::gearset::green, (72.0 / 48.0)}, {{4_in, 12_in}, imev5GreenTPR})  // this may cause issues
                                                 .withMaxVelocity(200)
                                                 .build();
@@ -105,6 +106,8 @@ void initialize() {
     taskKill(); // kill initialized programs
     driveL.setBrakeMode(AbstractMotor::brakeMode::brake);
     driveR.setBrakeMode(AbstractMotor::brakeMode::brake);
+    ptoGroup.setBrakeMode(AbstractMotor::brakeMode::brake);
+    intake.setBrakeMode(AbstractMotor::brakeMode::brake);
     // idk if i have to retract pneumatics but just in case ig
     ptoSolenoid.set_value(false);
     wingsSolenoid.set_value(false);
@@ -133,17 +136,6 @@ void disabled() {
 void competition_initialize() {
     taskKill(); // if comp cable is unplugged
     pros::delay(100);
-    controller.setText(0, 0, autonModes[autMode]);
-    while (true) {
-        if (autonSelector.get_new_press()) {
-            controller.rumble(".");
-            autMode = autMode < (int)autonModes.size() - 1 ? autMode + 1 : 0;
-            controller.clearLine(0);
-            pros::delay(50);
-            controller.setText(0, 0, autonModes[autMode]);
-        }
-        pros::delay(20);
-    }
 }
 
 #endif
