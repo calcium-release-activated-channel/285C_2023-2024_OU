@@ -28,25 +28,8 @@
 void autonomous() {
     taskKill();  // in case we ever go from driver -> auton -> driver
     while (true) {
-        autonTest();
-    }
-}
-
-/**
- * @brief Synnchronous drive function that corrects for differences in friction
- * @param target The target voltage to drive at, [-12000, 12000]
- */
-void driveStraight(int target) {  // adjust for differences in friction
-    int leftAdj = 1.06,
-        rightAdj = 1;
-    driveL.moveVoltage(target * leftAdj);
-    driveR.moveVoltage(target * rightAdj);
-}
-
-void autonTest() {
-    while (true) {
-        ptoGroup.moveVelocity(200);
-        pros::delay((int)(2000.0 / 3.3));
+        ptoGroup.moveVelocity(121);
+        pros::delay(100);
     }
 }
 
