@@ -28,7 +28,7 @@
 void autonomous() {
     taskKill();  // in case we ever go from driver -> auton -> driver
     while (true) {
-        ptoGroup.moveVelocity(121);
+        ptoGroup.moveVelocity(-121);
         pros::delay(100);
     }
 }
